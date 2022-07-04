@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
-import { iItem } from './item.model.js';
+import { destination, iItem } from './item.model.js';
 
 /* eslint-disable no-unused-vars */
 export interface iSuitcase {
     id?: string;
-    destination: string;
+    destination: destination;
     items: Array<{
         item: iItem;
         quantity: number;
