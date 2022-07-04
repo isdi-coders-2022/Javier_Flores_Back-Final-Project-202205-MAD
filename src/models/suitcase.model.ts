@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
-import { mongooseConnect } from '../db/mongoose.js';
-import { iItem } from './item.model.js';
 
-(async () => {
-    await mongooseConnect();
-})();
+import { iItem } from './item.model.js';
 
 /* eslint-disable no-unused-vars */
 export interface iSuitcase {
