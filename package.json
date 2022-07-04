@@ -7,7 +7,7 @@
     "scripts": {
         "start": "run-p start:ts start:build",
         "start:ts": "tsc --watch",
-        "start:build": "cross-env PORT=3800 nodemon ./dist/index.js",
+        "start:build": "cross-env PORT=3900 nodemon ./dist/index.js",
         "test": "jest --watchAll --coverage"
     },
     "author": "Javier",
