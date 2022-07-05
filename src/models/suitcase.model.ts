@@ -1,26 +1,34 @@
 import mongoose from 'mongoose';
+import { mongooseConnect, RelationField } from '../db/mongoose.js';
+import { destination } from './item.model.js';
 
-import { destination, iItem } from './item.model.js';
+(async () => {
+    await mongooseConnect();
+})();
 
 /* eslint-disable no-unused-vars */
 export interface iSuitcase {
     id?: string;
     destination: destination;
-    items: Array<{
-        item: iItem;
-        quantity: number;
-        isChecked: boolean;
-    }>;
+    owner: RelationField;
+    items: [
+        {
+            item: RelationField;
+            quantity: number;
+            isChecked: boolean;
+        }
+    ];
     isWeightOk: boolean;
 }
 
 const suitcaseSchema = new mongoose.Schema({
     destination: { type: mongoose.SchemaTypes.String, required: true },
+    owner: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' },
     items: [
         {
             item: {
-                name: { type: mongoose.SchemaTypes.String, required: true },
-                weight: { type: mongoose.SchemaTypes.Number, required: true },
+                type: mongoose.Types.ObjectId,
+                ref: 'Item',
             },
             quantity: { type: mongoose.SchemaTypes.Number, required: true },
             isChecked: { type: mongoose.SchemaTypes.Boolean, required: true },
@@ -34,5 +42,4 @@ suitcaseSchema.set('toJSON', {
         delete returnedObject.__v;
     },
 });
-
 export const Suitcase = mongoose.model('Suitcase', suitcaseSchema);
