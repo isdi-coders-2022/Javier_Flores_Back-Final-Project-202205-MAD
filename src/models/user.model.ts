@@ -15,8 +15,8 @@ export interface iUser {
 }
 
 const userSchema = new mongoose.Schema({
-    name: { type: mongoose.SchemaTypes.String, required: true },
-    email: mongoose.SchemaTypes.String,
+    name: { type: mongoose.SchemaTypes.String, required: true, unique: true },
+    email: { type: mongoose.SchemaTypes.String, required: true, unique: true },
     password: { type: mongoose.SchemaTypes.String, required: true },
     suitcases: [
         {

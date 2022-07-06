@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { Model } from 'mongoose';
 import { Item } from '../models/item.model.js';
-import { ItemController } from './item.controller.js';
+import { BasicController } from './basic.controller.js';
 
-export class SuggestionController<T> extends ItemController<T> {
+export class SuggestionController<T> extends BasicController<T> {
     constructor(public model: Model<T>) {
         super(model);
     }

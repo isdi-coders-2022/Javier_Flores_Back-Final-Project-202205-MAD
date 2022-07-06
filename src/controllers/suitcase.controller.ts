@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Model } from 'mongoose';
 import { BasicController } from './basic.controller.js';
-// import { iTokenPayload } from '../interfaces/token.js';
-//import * as aut from '../services/authorization.js';
 import { User } from '../models/user.model.js';
 import { iSuitcase } from '../models/suitcase.model.js';
 
@@ -67,7 +65,7 @@ export class SuitcaseController<T> extends BasicController<T> {
                 newSuitcase.id,
             ];
             user.save();
-            // Genero la resouesta
+
             resp.setHeader('Content-type', 'application/json');
             resp.status(201);
             resp.send(JSON.stringify(newSuitcase));
@@ -75,30 +73,31 @@ export class SuitcaseController<T> extends BasicController<T> {
             next(error); // ValidationError
         }
     };
+    deleteController = async (req: Request, res: Response) => {
+        const deletedSuitcase: iSuitcase | null =
+            await this.model.findByIdAndDelete(req.params.id);
 
-    //     loginController = async (
-    //         req: Request,
-    //         res: Response,
-    //         next: NextFunction
-    //     ) => {
-    //         const findUser: any = await this.model.findOne({ name: req.body.name });
-    //         if (
-    //             !findUser ||
-    //             !(await aut.compare(req.body.passwd, findUser.passwd))
-    //         ) {
-    //             const error = new Error('Invalid user or password');
-    //             error.name = 'UserAuthorizationError';
-    //             next(error);
-    //             return;
-    //         }
-    //         const tokenPayLoad: iTokenPayload = {
-    //             id: findUser.id,
-    //             name: findUser.name,
-    //         };
-
-    //         const token = aut.createToken(tokenPayLoad);
-    //         res.setHeader('Content-type', 'application/json');
-    //         res.status(201);
-    //         res.send(JSON.stringify({ token, id: findUser.id }));
-    //     };
+        if (deletedSuitcase === null) {
+            res.status(404);
+            res.send(
+                JSON.stringify({
+                    error: 'Delete impossible',
+                })
+            );
+        } else {
+            // UPDATE USER SUITCASES ARRAY
+            await User.updateOne(
+                {
+                    _id: { $in: deletedSuitcase.owner },
+                },
+                {
+                    $pull: {
+                        suitcases: deletedSuitcase.id,
+                    } as { [key: string]: string },
+                }
+            );
+            res.status(202);
+            res.send(JSON.stringify(deletedSuitcase));
+        }
+    };
 }
