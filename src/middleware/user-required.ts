@@ -4,7 +4,7 @@ import { Suitcase } from '../models/suitcase.model.js';
 
 export const userRequiredForSuitcase = async (
     req: Request,
-    resp: Response,
+    res: Response,
     next: NextFunction
 ) => {
     // el usuario tiene acceso al recurso (e.g. Tarea)

@@ -5,7 +5,7 @@ import * as aut from '../services/authorization.js';
 
 export const loginRequired = (
     req: Request,
-    resp: Response,
+    res: Response,
     next: NextFunction
 ) => {
     const authorization = req.get('authorization');

@@ -3,6 +3,7 @@ import { HydratedDocument, Model } from 'mongoose';
 import { BasicController } from './basic.controller.js';
 import { iTokenPayload } from '../interfaces/token.js';
 import * as aut from '../services/authorization.js';
+import { Suitcase } from '../models/suitcase.model.js';
 
 export class UserController<T> extends BasicController<T> {
     constructor(public model: Model<T>) {
@@ -44,15 +45,21 @@ export class UserController<T> extends BasicController<T> {
         let newItem: HydratedDocument<any>;
         try {
             req.body.password = await aut.encrypt(req.body.password);
-            newItem = await this.model.create(req.body);
         } catch (error) {
             next(error);
+            return;
+        }
+        try {
+            newItem = await this.model.create(req.body);
+        } catch (error) {
+            next(RangeError);
             return;
         }
         res.setHeader('Content-type', 'application/json');
         res.status(201);
         res.send(JSON.stringify(newItem));
     };
+    // Controller for patch suitcase array and erase suitcase from collection
 
     loginController = async (
         req: Request,
@@ -62,7 +69,7 @@ export class UserController<T> extends BasicController<T> {
         const findUser: any = await this.model.findOne({ name: req.body.name });
         if (
             !findUser ||
-            !(await aut.compare(req.body.passwd, findUser.passwd))
+            !(await aut.compare(req.body.password, findUser.password))
         ) {
             const error = new Error('Invalid user or password');
             error.name = 'UserAuthorizationError';
@@ -78,5 +85,22 @@ export class UserController<T> extends BasicController<T> {
         res.setHeader('Content-type', 'application/json');
         res.status(201);
         res.send(JSON.stringify({ token, id: findUser.id }));
+    };
+    deleteController = async (req: Request, res: Response) => {
+        const deletedUser = await this.model.findByIdAndDelete(req.params.id);
+        if (deletedUser === null) {
+            res.status(404);
+            res.send(
+                JSON.stringify({
+                    error: 'Delete impossible',
+                })
+            );
+        } else {
+            // DELETE SUITCASES OF USER FROM SUITCASES COLLECTION
+            await Suitcase.deleteMany({ owner: deletedUser.id });
+
+            res.status(202);
+            res.send(JSON.stringify(deletedUser));
+        }
     };
 }

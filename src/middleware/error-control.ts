@@ -8,6 +8,8 @@ const errors: {
     UserError: 404, // Not found
     UserAuthorizationError: 401, // Unauthorized
     TokenError: 401, // Unauthorized
+    RangeError: 400, // Bad Request
+    Error: 500, // Internal Server Error
 };
 
 export const errorControl = (
@@ -18,7 +20,7 @@ export const errorControl = (
 ) => {
     req;
     next;
-    console.log(error.message);
+    console.log(error);
 
     let status = 500;
     if (error.name) status = errors[error.name];
