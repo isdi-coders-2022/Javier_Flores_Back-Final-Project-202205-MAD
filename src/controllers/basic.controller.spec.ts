@@ -21,14 +21,14 @@ describe('Given a instantiated controller BasicController', () => {
     describe('When method getAllController is called', () => {
         test('Then resp.send should be called', async () => {
             (Model.find = jest.fn().mockReturnValue({
-                task: 'test',
+                item: 'test',
             })),
                 await basicController.getAllController(
                     req as Request,
                     res as Response
                 );
             expect(Model.find).toHaveBeenCalled();
-            expect(res.send).toHaveBeenCalledWith({ task: 'test' });
+            expect(res.send).toHaveBeenCalledWith({ item: 'test' });
         });
     });
 
@@ -99,8 +99,21 @@ describe('Given a instantiated controller BasicController', () => {
                     res as Response
                 );
                 expect(res.status).toHaveBeenCalledWith(202);
+                expect(res.send).toHaveBeenCalledWith(JSON.stringify(result));
+            });
+            describe('When method deleteController is called with incorrect id', () => {
+                test('Then res.status should be called with status 404', async () => {
+                    const result = null;
+                    Model.findByIdAndDelete = jest
+                        .fn()
+                        .mockResolvedValue(result);
+                    await basicController.deleteController(
+                        req as Request,
+                        res as Response
+                    );
+                    expect(res.status).toHaveBeenCalledWith(404);
+                });
             });
         });
     });
 });
-

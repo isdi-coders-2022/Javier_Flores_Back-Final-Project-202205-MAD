@@ -37,7 +37,6 @@ export class SuggestionController<T> extends BasicController<T> {
                 []
             );
 
-            console.log(myFilteredArr);
             res.setHeader('Content-type', 'application/json');
             res.send(myFilteredArr);
         } catch (err) {

@@ -1,4 +1,3 @@
-//Maybe will be a problem with SchemaType of Destination!!
 /* eslint-disable no-unused-vars */
 import mongoose from 'mongoose';
 
