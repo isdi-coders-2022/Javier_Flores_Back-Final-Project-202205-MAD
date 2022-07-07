@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* istanbul ignore file */
 import mongoose from 'mongoose';
 
 export enum destination {
