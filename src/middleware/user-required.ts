@@ -7,8 +7,6 @@ export const userRequiredForSuitcase = async (
     res: Response,
     next: NextFunction
 ) => {
-    // el usuario tiene acceso al recurso (e.g. Tarea)
-
     const userID = (req as unknown as ExtRequest).tokenPayload.id;
     const findSuitcase = await Suitcase.findById(req.params.id);
     if (findSuitcase?.owner === userID) {
