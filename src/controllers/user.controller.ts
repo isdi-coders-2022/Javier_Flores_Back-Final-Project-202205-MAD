@@ -11,7 +11,6 @@ export class UserController<T> extends BasicController<T> {
     }
 
     getAllController = async (req: Request, res: Response) => {
-        console.log('llega');
         req;
         res.setHeader('Content-type', 'application/json');
         res.send(await this.model.find().populate('suitcases'));
@@ -45,19 +44,14 @@ export class UserController<T> extends BasicController<T> {
         let newItem: HydratedDocument<any>;
         try {
             req.body.password = await aut.encrypt(req.body.password);
-        } catch (error) {
-            next(error);
-            return;
-        }
-        try {
             newItem = await this.model.create(req.body);
+            res.setHeader('Content-type', 'application/json');
+            res.status(201);
+            res.send(JSON.stringify(newItem));
         } catch (error) {
             next(RangeError);
             return;
         }
-        res.setHeader('Content-type', 'application/json');
-        res.status(201);
-        res.send(JSON.stringify(newItem));
     };
     // Controller for patch suitcase array and erase suitcase from collection
 

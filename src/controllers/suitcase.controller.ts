@@ -41,17 +41,12 @@ export class SuitcaseController<T> extends BasicController<T> {
 
     postController = async (
         req: Request,
-        resp: Response,
+        res: Response,
         next: NextFunction
     ) => {
         try {
             let user;
-            try {
-                user = await User.findById(req.body.owner);
-            } catch (error) {
-                next(error);
-                return;
-            }
+            user = await User.findById(req.body.owner);
             if (!user) {
                 const error = new Error('User not found');
                 error.name = 'UserError';
@@ -66,9 +61,9 @@ export class SuitcaseController<T> extends BasicController<T> {
             ];
             user.save();
 
-            resp.setHeader('Content-type', 'application/json');
-            resp.status(201);
-            resp.send(JSON.stringify(newSuitcase));
+            res.setHeader('Content-type', 'application/json');
+            res.status(201);
+            res.send(JSON.stringify(newSuitcase));
         } catch (error) {
             next(error); // ValidationError
         }
