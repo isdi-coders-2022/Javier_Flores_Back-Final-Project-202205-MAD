@@ -11,10 +11,10 @@ import { destination } from './item.model.js';
 export interface iSuitcase {
     id?: string;
     destination: destination;
-    owner: RelationField;
+    owner: RelationField | null;
     items: [
         {
-            item: RelationField;
+            item: RelationField | null;
             quantity: number;
             isChecked: boolean;
         }
