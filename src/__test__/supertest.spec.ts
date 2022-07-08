@@ -231,7 +231,6 @@ describe('Given the routes of Suitcase', () => {
                 .send(editSuitcase)
 
                 .set('Authorization', 'Bearer ' + saveToken);
-            console.log('AaaaAAAAAAAAAAAAAAAAAAAAA');
             expect(response.statusCode).toBe(200);
         });
     });
@@ -256,11 +255,32 @@ describe('Given methods patch and delete from User router', () => {
             expect(response.statusCode).toBe(200);
         });
     });
+    describe('When method PATCH is used in "/user/:id without token', () => {
+        test('Then status should be 401', async () => {
+            const editUser = { name: 'pepe' };
+            const response = await request(app)
+                .patch('/user/' + saveId)
+                .send(editUser);
+
+            expect(response.statusCode).toBe(401);
+        });
+    });
+    describe('When method DELETE is used in "/user/:id with another token', () => {
+        test('Then status should be 401', async () => {
+            const mockToken =
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzhiYTQxNWY4MTJhM2EwMWY4YTg1NiIsIm5hbWUiOiJqb3JnZSIsImlhdCI6MTY1NzMyMjA0OX0.zMFl4K4WO1vBYyVpSzoSb3Yl4ej3z-6dnrUHJBkKfI0';
+            const response = await request(app)
+                .delete('/user/' + saveId)
+                .set('Authorization', 'Bearer ' + mockToken);
+            expect(response.statusCode).toBe(401);
+        });
+    });
     describe('When method DELETE is used in "/user/:id', () => {
         test('Then status should be 202', async () => {
             const response = await request(app)
                 .delete('/user/' + saveId)
                 .set('Authorization', 'Bearer ' + saveToken);
+            console.log(saveToken);
             expect(response.statusCode).toBe(202);
         });
     });
