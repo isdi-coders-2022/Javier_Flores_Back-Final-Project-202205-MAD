@@ -1,5 +1,5 @@
 {
-    "name": "18-final-epress",
+    "name": "tf-backend",
     "version": "1.0.0",
     "description": "Http express server with MVC architecture and collection relationships",
     "main": "index.js",
@@ -8,7 +8,7 @@
         "start": "run-p start:ts start:build",
         "start:ts": "tsc --watch",
         "start:build": "cross-env PORT=3900 nodemon ./dist/index.js",
-        "test": "jest --watchAll --coverage --detectOpenHandles"
+        "test": "cross-env jest --watchAll --coverage --passWithNoTests --runInBand"
     },
     "author": "Javier",
     "license": "ISC",
