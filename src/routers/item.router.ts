@@ -10,3 +10,4 @@ itemRouter.get('/', itemController.getAllController);
 itemRouter.get('/:id', itemController.getController);
 itemRouter.post('/', itemController.postController);
 itemRouter.patch('/:id', loginRequired, itemController.patchController);
+itemRouter.delete('/:id', loginRequired, itemController.deleteController);
