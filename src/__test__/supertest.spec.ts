@@ -174,6 +174,14 @@ describe('Given the routes of Item', () => {
             expect(response.statusCode).toBe(200);
         });
     });
+    describe('When method DELETE is used in "/item/:id', () => {
+        test('Then status should be 200', async () => {
+            const response = await request(app)
+                .delete('/item/' + String(saveItem._id))
+                .set('Authorization', 'Bearer ' + saveToken);
+            expect(response.statusCode).toBe(202);
+        });
+    });
 });
 describe('Given the routes of Suitcase', () => {
     beforeEach(async () => {
@@ -286,10 +294,10 @@ describe('Given methods patch and delete from User router', () => {
     });
 });
 describe('Given methods from Suggestion router', () => {
-    describe("When method GET is used in '/suggestion/?qbeach", () => {
+    describe("When method GET is used in '/suggestion/?beach", () => {
         test('Then status should be 200', async () => {
             const response = await request(app).get(
-                '/suggestion/?qdestination=beach'
+                '/suggestion/?destination=beach'
             );
 
             expect(response.statusCode).toBe(200);
@@ -303,20 +311,3 @@ afterAll(async () => {
     await Item.deleteMany({});
     await Suitcase.deleteMany({});
 });
-
-//Rutas
-// suitcaseRouter.get('/', suitcaseController.getAllController); Done
-// suitcaseRouter.get('/:id', suitcaseController.getController); Done
-// suitcaseRouter.post('/', suitcaseController.postController); Done
-// suitcaseRouter.patch(
-//     '/:id',
-//     loginRequired,
-//     userRequiredForSuitcase,
-//     suitcaseController.patchController
-// );
-// suitcaseRouter.delete(
-//     '/:id',
-//     loginRequired,
-//     userRequiredForSuitcase,
-//     suitcaseController.deleteController
-// );
