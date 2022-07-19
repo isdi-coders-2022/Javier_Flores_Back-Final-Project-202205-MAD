@@ -14,7 +14,7 @@ jobs:
             - name: Install modules
               run: npm ci
             - name: Testing coverage
-              run: npm run cross-env jest --watchAll --coverage --passWithNoTests --runInBand
+              run: npm run cross-env jest --watch=false --coverage --passWithNoTests --runInBand
               env:
                   SECRET: ${{ secrets.JWT_SECRET }}
             - name: SonarCloud Scan
