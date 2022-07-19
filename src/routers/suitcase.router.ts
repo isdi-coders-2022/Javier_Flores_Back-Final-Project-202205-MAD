@@ -13,8 +13,8 @@ suitcaseRouter.get('/:id', suitcaseController.getController);
 suitcaseRouter.post('/', suitcaseController.postController);
 suitcaseRouter.patch(
     '/:id',
-    loginRequired,
-    userRequiredForSuitcase,
+    // loginRequired,
+    // userRequiredForSuitcase,
     suitcaseController.patchController
 );
 suitcaseRouter.delete(
