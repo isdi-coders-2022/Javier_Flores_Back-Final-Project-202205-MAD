@@ -26,5 +26,4 @@ itemSchema.set('toJSON', {
         delete returnedObject.__v;
     },
 });
-
 export const Item = mongoose.model('Item', itemSchema);

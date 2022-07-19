@@ -10,9 +10,10 @@ import { destination } from './item.model.js';
 /* eslint-disable no-unused-vars */
 export interface iSuitcase {
     id?: string;
-    destination: destination;
+    limitWeight: number;
+    destination?: destination;
     owner: RelationField | null;
-    items: [
+    items?: [
         {
             item: RelationField | null;
             quantity: number;
@@ -23,16 +24,21 @@ export interface iSuitcase {
 }
 
 const suitcaseSchema = new mongoose.Schema({
+    limitWeight: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
     destination: { type: mongoose.SchemaTypes.String, required: true },
-    owner: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' },
+    owner: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
     items: [
         {
             item: {
                 type: mongoose.Types.ObjectId,
                 ref: 'Item',
             },
-            quantity: { type: mongoose.SchemaTypes.Number, required: true },
-            isChecked: { type: mongoose.SchemaTypes.Boolean, required: true },
+            quantity: { type: mongoose.SchemaTypes.Number },
+            isChecked: { type: mongoose.SchemaTypes.Boolean },
         },
     ],
     isWeightOk: { type: mongoose.SchemaTypes.Boolean, required: true },

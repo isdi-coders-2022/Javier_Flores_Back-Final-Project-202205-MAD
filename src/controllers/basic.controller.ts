@@ -40,7 +40,8 @@ export class BasicController<T> {
     patchController = async (req: Request, res: Response) => {
         const newItem = await this.model.findByIdAndUpdate(
             req.params.id,
-            req.body
+            req.body,
+            { new: true }
         );
         res.setHeader('Content-type', 'application/json');
         res.send(JSON.stringify(newItem));
