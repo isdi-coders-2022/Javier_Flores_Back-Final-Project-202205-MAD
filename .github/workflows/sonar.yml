@@ -2,7 +2,7 @@ name: Sonar Scanner
 on:
     push:
         branches:
-            - master
+            - main
 jobs:
     sonarcloud:
         name: SonarCloud
@@ -14,9 +14,9 @@ jobs:
             - name: Install modules
               run: npm ci
             - name: Testing coverage
-              run: npm test -- --collect-coverage --watchAll
+              run: npm run cross-env jest --watchAll --coverage --passWithNoTests --runInBand
               env:
-                  SECRET: ${{ secrets.SECRET }}
+                  SECRET: ${{ secrets.JWT_SECRET }}
             - name: SonarCloud Scan
               uses: SonarSource/sonarcloud-github-action@master
               env:
