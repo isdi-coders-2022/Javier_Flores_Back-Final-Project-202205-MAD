@@ -13,8 +13,8 @@ jobs:
                   fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
             - name: Install modules
               run: npm ci
-            # - name: Initiate TS
-            #   run: npm tsc
+            - name: Initiate TS
+              run: npm run start:sonar,
             - name: Testing coverage
               run: npm run test:prod
               env:
