@@ -7,6 +7,7 @@
     "scripts": {
         "start": "run-p start:ts start:build",
         "start:ts": "tsc --watch",
+        "start:sonar": "tsc",
         "start:build": "cross-env PORT=3900 nodemon ./dist/index.js",
         "test": "cross-env jest --watchAll --coverage --passWithNoTests --runInBand",
         "test:prod": "jest --watchAll --collect-coverage --ci --silent --watchAll=false"
