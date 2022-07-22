@@ -26,7 +26,6 @@ export interface iSuitcase {
 const suitcaseSchema = new mongoose.Schema({
     limitWeight: {
         type: Number,
-        required: true,
         min: 0,
     },
     destination: { type: mongoose.SchemaTypes.String, required: true },
